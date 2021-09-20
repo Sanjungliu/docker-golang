@@ -4,11 +4,11 @@ RUN mkdir /build
 WORKDIR /build
 
 RUN export GO111MODULE=on
-RUN go get github.com/Sanjungliu/docker-golang
+RUN go get github.com/Sanjungliu/docker-golang/main
 RUN cd /build && git clone https://github.com/Sanjungliu/docker-golang.git
 
-RUN cd /build/docker-golang && go build
+RUN cd /build/docker-golang/main && go build
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/build/docker-golang/main" ]
+ENTRYPOINT [ "/build/docker-golang/main/main" ]
