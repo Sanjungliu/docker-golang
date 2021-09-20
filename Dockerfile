@@ -11,6 +11,4 @@ RUN cd /build/docker-golang && go build
 
 EXPOSE 8080
 
-RUN GO MOD INIT github.com/Sanjungliu/docker-golang
-
-ENTRYPOINT [ "/build/docker-golang" ]
+ENTRYPOINT [ "/build/docker-golang/main" ]
