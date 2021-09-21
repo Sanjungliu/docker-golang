@@ -1,14 +1,21 @@
-FROM golang:latest
+FROM golang:1.16-alpine
 
-RUN mkdir /build
-WORKDIR /build
+WORKDIR /app
 
-RUN export GO111MODULE=on
-RUN go get github.com/Sanjungliu/docker-golang/main
-RUN cd /build && git clone https://github.com/Sanjungliu/docker-golang.git
+COPY go.mod .
 
-RUN cd /build/docker-golang/main && go build
+COPY . .
+
+RUN go build -o /docker-golang
+
+FROM gcr.io/distroless/base-debian10
+
+WORKDIR /
+
+COPY --from=build /docker-golang /docker-golang
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/build/docker-golang/main/main" ]
+USER nonroot:nonroot
+
+ENTRYPOINT [ "/docker-golang ]
