@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.16-alpine as build
 
 WORKDIR /app
 
@@ -8,14 +8,10 @@ COPY . .
 
 RUN go build -o /docker-golang
 
-FROM gcr.io/distroless/base-debian10
-
-WORKDIR /
+FROM alpine
 
 COPY --from=build /docker-golang /docker-golang
 
 EXPOSE 8080
 
-USER nonroot:nonroot
-
-ENTRYPOINT [ "/docker-golang ]
+ENTRYPOINT [ "/docker-golang" ]
